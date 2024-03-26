@@ -25,7 +25,7 @@ We provide code that enables the reproduction of our experiments with LLaVA v1.6
  ...
 ```
 
- * For experimenting with LLaVA v1.6 combined with IG-VLM, the following command can be used. Please copy the <a href="https://github.com/haotian-liu/LLaVA">LLaVA code</a> to the execution path. The llm_size parameter allows the selection among the 7b, 13b, and 34b model configurations:
+ * For experimenting with LLaVA v1.6 combined with IG-VLM, the following command can be used. Please install or copy the <a href="https://github.com/haotian-liu/LLaVA">LLaVA code</a> to the execution path. The llm_size parameter allows the selection among the 7b, 13b, and 34b model configurations:
  ```bash
  # Open-ended video question answering
  python eval_llava_openended.py --path_qa_pair_csv ./data/open_ended_qa/ActivityNet_QA.csv --path_video /data/activitynet/videos/%s.mp4 --path_result ./result_activitynet/ --api_key {api_key} --llm_size 7b
