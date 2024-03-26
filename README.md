@@ -5,7 +5,7 @@ Stimulated by the sophisticated reasoning capabilities of recent Large Language 
 
 ## Requirements and Installation
 * Pytorch
-* transformers==4.36.2
+* transformers
 * Install required packages : pip install -r requirements.txt
 
 
