@@ -26,7 +26,7 @@ def infer_and_eval_model(args):
     path_result_dir = args.path_result
     api_key = args.api_key
 
-    system_prompt, user_prompt = get_prompt()
+    system_prompt, user_prompt, assistant_prompt = get_prompt()
     frame_fixed_number = 6
 
     # In case of NExT-QA, TVQA, IntentQA and EgoSchema, These has five options on multiple-choice
@@ -62,6 +62,7 @@ def infer_and_eval_model(args):
         api_key,
         system_prompt,
         user_prompt,
+        assistant_prompt,
         frame_fixed_number=frame_fixed_number,
         func_user_prompt=func_user_prompt,
     )
@@ -70,13 +71,14 @@ def infer_and_eval_model(args):
     print("gpt4 prediction result : " + path_df_merged)
     print("start multiple-choice evaluation")
 
-    eval_multiple_choice(df_merged)
+    eval_multiple_choice_gpt4(df_merged)
 
 
 def get_prompt():
-    system_prompt = ""
-    user_prompt = "The provided image arranges key frames from a video in a grid view. They are arranged in chronological order, holding temporal information from the top left to the bottom right. You need to choose one of the following five options to answer the question, '%s?' : A.'%s', B.'%s', C.'%s', D.'%s', E.'%s'. Please provide a single-character answer (A, B, C, D or E) to the multiple-choice question, and your answer must be one of the letters (A, B, C, D or E). Your response must only contain one character without any other string."
-    return system_prompt, user_prompt
+    system_prompt = "You are an intelligent chatbot designed for understanding videos with key frames in grid view.\n-----\n##INSTRUCTIONS:\n- Focus and answer the question on the meaningful spatial and temporal information in grid view refering to question \n- Even if you're not sure of the answer, please choose the most likely option and answer it"
+    user_prompt = "The provided image arranges key frames from a video in a grid view. They are arranged in chronological order, holding temporal information from the top left to the bottom right. You need to choose one of the following five options to answer the question, '%s?' : 0.'%s', 1.'%s', 2.'%s', 3.'%s', 4.'%s'. Please provide a single-number answer (0, 1, 2, 3 or 4) to the multiple-choice question, and your answer must be one of the letters (0, 1, 2, 3 or 4). Your response must only contain one number without any string."
+    assistant_prompt = ""
+    return system_prompt, user_prompt, assistant_prompt
 
 
 def validate_video_path(filename):

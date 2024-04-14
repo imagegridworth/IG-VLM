@@ -44,15 +44,25 @@ class GPT4Inference(BaseModelInference):
         }
 
     def _make_payload(self):
-        return {
-            "model": "gpt-4-vision-preview",
-            "messages": [
-                self._make_system_prompt(),
-                self._make_user_prompt(),
-                {"role": "assistant", "content": ["In the video,"]},
-            ],
-            "max_tokens": self.max_tokens,
-        }
+        if "" == self.assistant_prompt:
+            return {
+                "model": "gpt-4-vision-preview",
+                "messages": [
+                    self._make_system_prompt(),
+                    self._make_user_prompt(),
+                ],
+                "max_tokens": self.max_tokens,
+            }
+        else:
+            return {
+                "model": "gpt-4-vision-preview",
+                "messages": [
+                    self._make_system_prompt(),
+                    self._make_user_prompt(),
+                    self._make_assistant_prompt(),
+                ],
+                "max_tokens": self.max_tokens,
+            }
 
     def _make_system_prompt(self):
         return {"role": "system", "content": [self.system_prompt]}
@@ -72,8 +82,12 @@ class GPT4Inference(BaseModelInference):
             ],
         }
 
+    def _make_assistant_prompt(self):
+        return {"role": "assistant", "content": [self.assistant_prompt]}
+
     def _extract_arguments(self, **kwargs):
         self.system_prompt = kwargs["system_prompt"]
         self.user_prompt = kwargs["user_prompt"]
+        self.assistant_prompt = kwargs["assistant_prompt"]
         self.base64_image = kwargs["base64_img"]
         self.max_tokens = kwargs.get("max_tokens", 500)

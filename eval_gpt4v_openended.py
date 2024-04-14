@@ -25,7 +25,7 @@ def infer_and_eval_model(args):
     path_result_dir = args.path_result
     api_key = args.api_key
 
-    system_prompt, user_prompt = get_prompt()
+    system_prompt, user_prompt, assistant_prompt = get_prompt()
     frame_fixed_number = 6
 
     print("loading model")
@@ -39,6 +39,7 @@ def infer_and_eval_model(args):
         api_key,
         system_prompt,
         user_prompt,
+        assistant_prompt,
         frame_fixed_number=frame_fixed_number,
     )
     df_merged, path_df_merged = gpt4vPipeline.do_pipeline()
@@ -61,7 +62,8 @@ def infer_and_eval_model(args):
 def get_prompt():
     system_prompt = ""
     user_prompt = "The provided image arranges keyframes from a video in a grid view. Answer concisely with overall content and context of the video, highlighting any significant events, characters, or objects that appear throughout the frames. Question: %s?"
-    return system_prompt, user_prompt
+    assistant_prompt = "In the video,"
+    return system_prompt, user_prompt, assistant_prompt
 
 
 def validate_video_path(filename):

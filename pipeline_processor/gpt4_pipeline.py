@@ -36,12 +36,14 @@ class Gpt4Pipeline:
         api_key,
         system_prompt,
         user_prompt,
+        assistant_prompt,
         func_user_prompt=lambda prompt, row: prompt % (row["question"]),
         calculate_max_row=lambda x: round(math.sqrt(x)),
         frame_fixed_number=6,
     ):
         self.system_prompt = system_prompt
         self.user_prompt = user_prompt
+        self.assistant_prompt = assistant_prompt
         self.func_user_prompt = func_user_prompt
 
         self.calculate_max_row = calculate_max_row
@@ -82,6 +84,7 @@ class Gpt4Pipeline:
                     answer = self.model.infer_and_save(
                         system_prompt=self.system_prompt,
                         user_prompt=self.func_user_prompt(self.user_prompt, row),
+                        assistant_prompt=self.assistant_prompt,
                         base64_img=image_data,
                     )
 
