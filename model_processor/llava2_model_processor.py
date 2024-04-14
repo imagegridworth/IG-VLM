@@ -68,7 +68,7 @@ class Llava2Processor(BaseModelInference):
                 input_ids,
                 images=images_tensor,
                 image_sizes=image_sizes,
-                do_sample=True,
+                do_sample=False,
                 temperature=1.0,
                 top_p=0.9,
                 num_beams=1,
