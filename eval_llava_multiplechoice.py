@@ -76,8 +76,11 @@ def infer_and_eval_model(args):
 
 
 def get_llava_and_prompt(llm_size):
-    if llm_size in ["7b", "13b"]:
+    if llm_size in ["7b"]:
         prompt = "Select correct option to answer the question. USER: <image>\nThe provided image arranges keyframes from a video in a grid view. Question: %s A:%s. B:%s. C:%s. D:%s. E:%s. \nSelect the correct answer from the options. \nASSISTANT:\nAnswer:"
+        model_name = "llava-v1.6-vicuna-%s" % (llm_size)
+    elif llm_size in ["13b"]:
+        prompt = "USER: <image>\nThe provided image arranges keyframes from a video in a grid view. Question: %s?\n A:%s. B:%s. C:%s. D:%s. E:%s. \n Select the correct answer from the options(A,B,C,D,E). \nASSISTANT: \nAnswer:"
         model_name = "llava-v1.6-vicuna-%s" % (llm_size)
     else:
         prompt = "<|im_start|>system\n Select correct option to answer the question.<|im_end|>\n<|im_start|>user\n <image>\n Question: %s? A:%s. B:%s. C:%s. D:%s. E: %s. Select the correct answer from the options. <|im_end|>\n<|im_start|>assistant\nAnswer:"
